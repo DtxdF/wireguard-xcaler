@@ -1,0 +1,19 @@
+services:
+  server:
+    name: wg-xcaler
+    makejail: ./server.makejail
+    options:
+      - expose: '51820 proto:udp'
+    environment:
+      - WG_ENDPOINT: !ENV '${ENDPOINT}'
+      - WG_PERSISTENTKEEPALIVE: !ENV '${PERSISTENTKEEPALIVE}'
+    volumes:
+      - wg-etc: /usr/local/etc/wireguard
+
+volumes:
+  wg-etc:
+    device: .volumes/wireguard-etc
+    type: nullfs
+    owner: 0
+    group: 0
+    mode: 700

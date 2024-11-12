@@ -1,0 +1,42 @@
+INCLUDE options/options.makejail
+INCLUDE options/network.makejail
+INCLUDE pkg.makejail
+
+RAW echo "======> Installing WireGuard <======"
+PKG wireguard-tools
+
+RAW echo "======> Installing scripts & utilities <======"
+COPY --verbose scripts
+COPY --verbose netsum
+CMD make -C /netsum
+CMD rm -f /netsum/netsum.c /netsum/Makefile
+
+RAW echo "======> Initializing <======"
+RUN /scripts/init.sh
+
+RAW echo "======> Configuring IP forwarding <======"
+SYSRC gateway_enable=YES
+CMD sysctl net.inet.ip.forwarding=1
+
+RAW echo "======> Configuring WireGuard interface <======"
+SYSRC wireguard_enable=YES
+SYSRC wireguard_interfaces=wg0
+
+RAW echo "======> Starting WireGuard <======"
+SERVICE wireguard start
+
+RAW echo "======> Configuring optional services <======"
+INCLUDE gh+DtxdF/efficient-makejail
+
+RAW echo "======> Done <======"
+CMD touch /.done
+
+STOP
+
+STAGE start
+
+CMD if ! service wireguard status > /dev/null 2>&1; then \
+        service wireguard start; \
+    fi
+
+CMD /scripts/run-with-lock.sh init

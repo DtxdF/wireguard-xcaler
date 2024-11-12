@@ -1,0 +1,5 @@
+#!/bin/sh
+
+JAIL="%%JAIL%%"
+
+doas -u root wg-xcaler-jail "${JAIL}" "$@"

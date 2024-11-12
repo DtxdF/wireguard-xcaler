@@ -1,0 +1,22 @@
+#!/usr/bin/env python
+
+import shlex
+import subprocess
+import sys
+import os
+
+args_str = os.environ.get("SSH_ORIGINAL_COMMAND", "")
+args_lst = shlex.split(args_str)
+
+args = ["cdm-wg-server"]
+args += args_lst
+
+process = subprocess.run(args,
+    text=True,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.STDOUT
+)
+
+print(process.stdout, end="")
+
+sys.exit(process.returncode)

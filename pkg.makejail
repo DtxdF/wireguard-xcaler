@@ -1,0 +1,2 @@
+CMD mkdir -p /usr/local/etc/pkg/repos
+COPY files/Latest.conf /usr/local/etc/pkg/repos/Latest.conf

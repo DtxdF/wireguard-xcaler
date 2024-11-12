@@ -1,0 +1,4 @@
+ARG wg_virtualnet?
+
+OPTION virtualnet=${wg_virtualnet}:<random> default
+OPTION nat

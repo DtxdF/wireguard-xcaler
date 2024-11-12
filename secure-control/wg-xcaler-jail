@@ -1,0 +1,7 @@
+#!/bin/sh
+
+JAIL="$1"
+
+shift
+
+appjail cmd jexec "${JAIL}" /scripts/run-with-lock.sh "$@"
