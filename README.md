@@ -23,6 +23,7 @@ cd ./wireguard-xcaler/
 
 # Edit the '.env' file to change some parameters.
 # Perhaps you may want to change 'appjail-director.yml'.
+cp .env.sample .env
 $EDITOR .env
 
 # Deploy the VPN server.
